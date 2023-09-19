@@ -223,21 +223,28 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
+        from models.engine.file_storage import FileStorage
+        from models.engine.db_storage import DBStorage
+
         print_list = []
+
+        if isinstance(storage, FileStorage):
+            objects = storage._FileStorage__objects
+        elif isinstance(storage, DBStorage):
+            objects = storage.all()
 
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            objects = storage.all(args)
-            #for k, v in storage._FileStorage__objects.items():
-            #    if k.split('.')[0] == args:
-            #        print_list.append(str(v))
+
+            for k, v in objects.items():
+                if k.split('.')[0] == args:
+                    print_list.append(str(v))
         else:
-            objects = storage.all()
-            #for k, v in storage._FileStorage__objects.items():
-            #    print_list.append(str(v))
+            for k, v in objects.items():
+                print_list.append(str(v))
 
         for obj in objects.values():
             print_list.append(str(obj))

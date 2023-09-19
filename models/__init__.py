@@ -13,8 +13,8 @@ from models.review import Review
 
 
 classes = {
-    "User": User,
     "State": State,
+    "User": User,
     "City": City,
     "Amenity": Amenity,
     "Place": Place,
