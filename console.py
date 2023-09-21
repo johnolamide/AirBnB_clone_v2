@@ -197,14 +197,23 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-
-        new_instance = HBNBCommand.classes[class_name]() # I created a new instance which comes with it own dictionary
-        dictionary = self.__get_create_dict(new_args) # I called get_create_dict and return a dictionary of argument passed
-        obj_dict = new_instance.to_dict() # I convert the instance to it dictionary representation
-        obj_dict.update(dictionary) # I populate the instance initial dictionary with that gotten from _get_create_dict
+        """
+            I created a new instance which comes with it own dictionary
+            I called get_create_dict and return a dictionary of argument
+            passed.
+            I convert the instance to it dictionary representation
+            I populate the instance initial dictionary with that gotten
+            from _get_create_dict.
+            then i created a proper instance with full dictionary
+            I stored it using storage.new engine
+        """
+        new_instance = HBNBCommand.classes[class_name]()
+        dictionary = self.__get_create_dict(new_args)
+        obj_dict = new_instance.to_dict()
+        obj_dict.update(dictionary)
         print(obj_dict)
-        new_instance = HBNBCommand.classes[class_name](**obj_dict) # then i created a proper instance with full dictionary
-        storage.new(new_instance) # I stored it using storage.new engine
+        new_instance = HBNBCommand.classes[class_name](**obj_dict)
+        storage.new(new_instance)
         print(new_instance.id)
         storage.save()
 
