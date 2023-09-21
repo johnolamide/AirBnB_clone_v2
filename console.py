@@ -114,8 +114,8 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, arg):
-        """ Create an object of any class"""
+    """def do_create(self, arg):
+        Create an object of any class
         if not arg:
             print("** class name missing **")
             return
@@ -147,6 +147,64 @@ class HBNBCommand(cmd.Cmd):
 
         new_instance = HBNBCommand.classes[class_name](**params)
         storage.save()
+        print(new_instance.id)
+        storage.save()"""
+
+    def __get_create_dict(self, args):
+        """creates an instance"""
+        kw_args = {}
+
+        for arg in args:
+            if '=' in arg:
+                key, value = arg.split('=')
+                key = key.strip()
+                value = value.strip()
+                if value.startswith('"') or value.endswith('"'):
+                    value = value[1:-1]
+                    if '"' in value:
+                        value = value.replace('\\"', '"')
+                        kw_args[key] = value.replace("_", " ")
+                    else:
+                        kw_args[key] = value.replace("_", " ")
+                else:
+                    try:
+                        if '.' in value:
+                            value = float(value)
+                        else:
+                            value = int(value)
+                    except ValueError:
+                        continue
+
+                    kw_args[key] = value
+        return kw_args
+
+    def do_create(self, args):
+        """Creates an instance"""
+        if not args:
+            print("** class name missing **")
+            return
+
+        tokens = args.split(" ")
+
+        class_name = tokens[0]
+        new_args = tokens[1:]
+
+        if len(tokens) < 1:
+            print("** class name missing **")
+            return
+
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+
+        new_instance = HBNBCommand.classes[class_name]() # I created a new instance which comes with it own dictionary
+        dictionary = self.__get_create_dict(new_args) # I called get_create_dict and return a dictionary of argument passed
+        obj_dict = new_instance.to_dict() # I convert the instance to it dictionary representation
+        obj_dict.update(dictionary) # I populate the instance initial dictionary with that gotten from _get_create_dict
+        print(obj_dict)
+        new_instance = HBNBCommand.classes[class_name](**obj_dict) # then i created a proper instance with full dictionary
+        storage.new(new_instance) # I stored it using storage.new engine
         print(new_instance.id)
         storage.save()
 
@@ -221,8 +279,8 @@ class HBNBCommand(cmd.Cmd):
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
-    def do_all(self, args):
-        """ Shows all objects, or all objects of a class"""
+    """def do_all(self, args):
+        Shows all objects, or all objects of a class
         from models.engine.file_storage import FileStorage
         from models.engine.db_storage import DBStorage
 
@@ -248,6 +306,30 @@ class HBNBCommand(cmd.Cmd):
 
         for obj in objects.values():
             print_list.append(str(obj))
+        print(print_list)"""
+
+    def do_all(self, args):
+        """ Shows all objects, or all objects of a class"""
+        print_list = []
+
+        if args:
+            args = args.split(' ')[0]  # remove possible trailing args
+            if args not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+
+            # Use the all() method of the storage instance to get objects
+            objects = storage.all(HBNBCommand.classes[args])
+
+            for obj in objects.values():
+                print_list.append(str(obj))
+        else:
+            # Use the all() method of the storage instance to get all objects
+            objects = storage.all()
+
+            for obj in objects.values():
+                print_list.append(str(obj))
+
         print(print_list)
 
     def help_all(self):
