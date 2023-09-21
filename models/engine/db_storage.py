@@ -36,8 +36,6 @@ class DBStorage:
 
         objects = {}
         if cls:
-            #if isinstance(cls, str):
-            #    cls = classes.get(cls, None)
             objs = self.__session.query(cls).all()
             for obj in objs:
                 key = "{}.{}".format(type(obj).__name__, obj.id)
