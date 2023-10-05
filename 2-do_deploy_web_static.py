@@ -7,6 +7,8 @@ import os
 
 
 env.hosts = ['54.210.42.244', '54.160.120.100']
+env.user = 'ubuntu'
+env.key_filename = '~/.ssh/ALX/id_rsa_alx'
 
 
 def do_deploy(archive_path):
