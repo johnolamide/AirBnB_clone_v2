@@ -7,6 +7,8 @@ import os
 
 
 env.hosts = ['54.210.42.244', '54.160.120.100']
+
+
 def do_deploy(archive_path):
     """ Distributes and deploy an archive to webservers
         Args:
@@ -32,5 +34,5 @@ def do_deploy(archive_path):
 
         print("New version deployed")
         return True
-    except:
+    except Exception:
         return False
