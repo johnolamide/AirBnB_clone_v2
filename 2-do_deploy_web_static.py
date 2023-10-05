@@ -30,6 +30,9 @@ def do_deploy(archive_path):
 
         run("rm /tmp/{}".format(archive_basename))
 
+        run("mv {}/web_static/* {}/".format(release_path, release_path))
+        run("rm -rf {}/web_static".format(release_path))
+
         current_path = '/data/web_static/current'
         run("rm -f {}".format(current_path))
         run("ln -s {} {}".format(release_path, current_path))
