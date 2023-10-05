@@ -8,7 +8,7 @@ import os
 
 env.hosts = ['54.210.42.244', '54.160.120.100']
 env.user = 'ubuntu'
-env.key_filename = '~/.ssh/ALX/id_rsa_alx'
+env.key_filename = '/home/qkiu/.ssh/ALX/id_rsa_alx'
 
 
 def do_deploy(archive_path):
@@ -16,7 +16,7 @@ def do_deploy(archive_path):
         Args:
             archive_path (str): path to the archive
     """
-    if not os.path.exists(archive_name):
+    if not os.path.exists(archive_path):
         return False
 
     try:
