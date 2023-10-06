@@ -73,32 +73,33 @@ def deploy():
 def do_clean(number=0):
     """ removes outdated archives
     """
-    try:
-        number = int(number)
+    #try:
+    number = int(number)
 
-        if number < 0:
-            number = 0
+    if number < 0:
+        number = 0
 
-        with lcd('versions'):
-            archives = sorted(os.listdir('.'), reverse=True)
-            archives_to_keep = archives[:number]
+    directory = "~/alx/AirBnB_clone_v2/versions"
+    with lcd(directory):
+        archives = sorted(os.listdir(directory), reverse=True)
+        archives_to_keep = archives[:number]
 
-            for archive in archives:
-                if archive not in archives_to_keep:
-                    #local('rm -f {}'.format(archive))
-                    print("**** ARCHIVE ***")
-                    print(archive)
+        for archive in archives:
+            if archive not in archives_to_keep:
+                #local('rm -f {}'.format(archive))
+                print("**** ARCHIVE ***")
+                print(archive)
 
-        #releases = run('ls -l /data/web_static/releases').split()
-        releases_to_keep = releases[:number]
+    #releases = run('ls -l /data/web_static/releases').split()
+    releases_to_keep = releases[:number]
 
-        for release in releases:
-            if release not in releases_to_keep:
-                #run('rm -rf /data/web_static/releases/{}'.format(release))
-                print("*** RELEASE ***")
-                print(release)
+    for release in releases:
+        if release not in releases_to_keep:
+            #run('rm -rf /data/web_static/releases/{}'.format(release))
+            print("*** RELEASE ***")
+            print(release)
 
-        return True
+    return True
 
-    except Exception:
-        return False
+    #except Exception:
+    #    return False

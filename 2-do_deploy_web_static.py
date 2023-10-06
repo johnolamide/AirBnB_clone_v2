@@ -24,9 +24,9 @@ def do_deploy(archive_path):
         archive_filename = os.path.splitext(archive_basename)[0]
         release_path = '/data/web_static/releases/{}'.format(archive_filename)
 
-        put(archive_path, '/tmp/')
-        run("mkdir -p {}".format(release_path))
-        run("tar -xzf /tmp/{} -C {}".format(archive_basename, release_path))
+        put(archive_path, "/tmp/")
+        run("mkdir -p {}/".format(release_path))
+        run("tar -xzf /tmp/{} -C {}/".format(archive_basename, release_path))
 
         run("rm /tmp/{}".format(archive_basename))
 
@@ -35,7 +35,7 @@ def do_deploy(archive_path):
 
         current_path = '/data/web_static/current'
         run("rm -f {}".format(current_path))
-        run("ln -s {} {}".format(release_path, current_path))
+        run("ln -s {}/ {}".format(release_path, current_path))
 
         print("New version deployed")
         return True
