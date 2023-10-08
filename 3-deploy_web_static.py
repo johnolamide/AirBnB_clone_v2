@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ this script contains the function definition of deploy
 """
-from fabric.api import env, put, run, local
+from fabric.api import env, put, run, local, runs_once
 from datetime import datetime
 import os
 
@@ -11,6 +11,7 @@ env.user = 'ubuntu'
 env.key_filename = '~/.ssh/ALX/id_rsa_alx'
 
 
+@runs_once
 def do_pack():
     """ creates a .tgz archive from web_static folder
     """
