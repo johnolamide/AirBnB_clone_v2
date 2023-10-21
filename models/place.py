@@ -26,13 +26,14 @@ class Place(BaseModel, Base):
 
     storage_type = os.getenv("HBNB_TYPE_STORAGE")
 
+
     if storage_type == 'db':
         reviews = relationship("Review", backref="place",
                                cascade="all, delete-orphan")
         amenities = relationship("Amenity", secondary="place_amenity",
                                  viewonly=False)
 
-    if storage_type == 'file':
+    else:
         amenity_ids = []
 
         @property
@@ -45,6 +46,7 @@ class Place(BaseModel, Base):
         @property
         def amenities(self):
             """Getter for amenities"""
+            # from models import storage
             return [inst for inst in FileStorage.all(Amenity).values()
                     if inst.amenity_id == self.id]
 
