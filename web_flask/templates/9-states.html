@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<HTML lang="en">
+	<HEAD>
+		<TITLE>HBNB</TITLE>
+	</HEAD>
+	<BODY>
+		{# Create a list of state ids #}
+		{% set state_ids = [] %}
+		{% for state in states %}
+			{% set _ = state_ids.append(state.id) %}
+		{% endfor %}
+
+		{# check if id is passed and if it is present in the list of state ids #}
+		{% if id %}
+			{% if id in state_ids %}
+				{% for state in states %}
+					{% if id == state.id %}
+		<H1>State: {{ state.name }}</H1>
+		<H3>Cities:</H3>
+		<UL>
+			{% for city in state.cities | sort(attribute='name') +%}
+			<LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
+			{% endfor +%}
+		</UL>
+					{% endif %}
+				{% endfor %}
+			{% elif id not in state_ids %}
+		<H1>Not found!</H1>
+			{% endif %}
+		{% else %}
+		<H1>States</H1>
+		<UL>
+			{% for state in states | sort(attribute='name') +%}
+			<LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
+			{% endfor +%}
+		</UL>
+		{% endif +%}
+	</BODY>
+</HTML>

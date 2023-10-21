@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 @app.route('/cities_by_states', strict_slashes=False)
-def states_list():
+def cities_by_states():
     """ prints the list of states in the storage
     """
     states = storage.all(State).values()
